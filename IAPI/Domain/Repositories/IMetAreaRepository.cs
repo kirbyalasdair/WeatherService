@@ -4,14 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using IAPI.Domain.Models;
 
-namespace IAPI.Domain.Services
+namespace IAPI.Domain.Repositories
 {
-    public interface IMetAreaService
+    public interface IMetAreaRepository
     {
         Task<IEnumerable<MetArea>> GetAll();
 
         Task<MetArea> GetMetArea(int id);
 
         Task<MetArea> AddCrag(MetArea metArea);
+       
     }
 }

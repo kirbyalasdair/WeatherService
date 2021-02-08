@@ -8,7 +8,7 @@ using IAPI.Domain.Repositories;
 
 namespace IAPI.Domain.Services
 {
-    public class CragService
+    public class CragService : ICragService
     {
         private readonly ICragRepository _cragRepository;
 
@@ -19,6 +19,27 @@ namespace IAPI.Domain.Services
         public async Task<IEnumerable<Crag>> ListAsync()
         {
             return await _cragRepository.ListAsync();
+        }
+
+        public async Task<Crag> GetCrag(int id)
+        {
+            return await _cragRepository.GetCrag(id);
+        }
+
+        public async Task<Crag> AddCrag(Crag crag)
+        {
+            return await _cragRepository.AddCrag(crag);
+        }
+
+        public async Task<Crag> UpdateCrag(Crag crag)
+        {
+            return await _cragRepository.UpdateCrag(crag);
+        }
+
+        public async Task<Crag> DeleteCrag(int id)
+        {
+           return await  _cragRepository.DeleteCrag(id);
+
         }
     }
 }

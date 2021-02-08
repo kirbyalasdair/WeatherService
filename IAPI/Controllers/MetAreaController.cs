@@ -11,13 +11,13 @@ namespace IAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CragController : ControllerBase
+    public class MetAreaController : ControllerBase
     {
-        private readonly ICragService _cragService;
+        private readonly IMetAreaService _metAreaService;
 
-        public CragController(ICragService cragService)
+        public MetAreaController(IMetAreaService metAreaService)
         {
-            _cragService = cragService;
+            _metAreaService = metAreaService;
         }
 
         [HttpGet]
@@ -25,21 +25,21 @@ namespace IAPI.Controllers
         {
             try
             {
-                return Ok(await _cragService.ListAsync());
+                return Ok(await _metAreaService.GetAll());
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error Retreiving");
             }
-            
+
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Crag>> GetCrag(int id)
+        public async Task<ActionResult<MetArea>> GetMetArea(int id)
         {
             try
             {
-                var result = await _cragService.GetCrag(id);
+                var result = await _metAreaService.GetMetArea(id);
                 if (result != null)
                 {
                     return Ok(result);
@@ -54,52 +54,30 @@ namespace IAPI.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Crag>> CreateCrag(Crag crag)
-        {
-            try
-            {
-                if (crag == null)
-                {
-                    return BadRequest();
-                }
-
-                var created = await _cragService.AddCrag(crag);
-
-                return CreatedAtAction(nameof(GetCrag),
-                    new { id = created.Id }, created);
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error creating new");
-            }
-        }
-
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Crag>> UpdateCrag(int id, Crag crag)
+        public async Task<ActionResult<MetArea>> AddCrag(int id, MetArea metArea)
         {
             try
             {
-                if (id != crag.Id)
+                if (id != metArea.Id)
                 {
                     return BadRequest("Id mismatch");
                 }
 
-                var result = await _cragService.GetCrag(id);
+                var result = await _metAreaService.GetMetArea(id);
 
                 if (result != null)
                 {
-                    return await _cragService.UpdateCrag(crag);
+                    return await _metAreaService.AddCrag(metArea);
                 }
 
-                return NotFound($"Crag with ID = {id} not found");
+                return NotFound($"MetArea with ID = {id} not found");
 
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error updating crag");
+                    "Error adding crag to metArea");
             }
         }
     }

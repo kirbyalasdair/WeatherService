@@ -13,6 +13,7 @@ namespace IAPI.Domain.Models
         public ERockType RockType { get; set; }
         public int DryFor { get; set; }
         public int Rating { get; set; }
+        public int Altitude { get; set; }
         //Extent for Winter
 
 
